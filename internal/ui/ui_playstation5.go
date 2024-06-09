@@ -76,6 +76,10 @@ func (u *UserInterface) initOnMainThread(options *RunOptions) error {
 	u.graphicsDriver = g
 	u.setGraphicsLibrary(lib)
 
+	if err := options.RunOnceInitialized(); err != nil {
+		return err
+	}
+
 	return nil
 }
 

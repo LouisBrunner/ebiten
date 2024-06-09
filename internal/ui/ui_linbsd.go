@@ -159,8 +159,11 @@ func monitorFromWindowByOS(_ *glfw.Window) (*Monitor, error) {
 }
 
 func (u *UserInterface) nativeWindow() (uintptr, error) {
-	// TODO: Implement this.
-	return 0, nil
+	win, err := u.window.GetX11Window()
+	if err != nil {
+		return 0, err
+	}
+	return uintptr(win), nil
 }
 
 func (u *UserInterface) isNativeFullscreen() (bool, error) {

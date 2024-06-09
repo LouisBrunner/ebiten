@@ -85,6 +85,10 @@ func (u *UserInterface) initOnMainThread(options *RunOptions) error {
 
 	initializeProfiler()
 
+	if err := options.RunOnceInitialized(); err != nil {
+		return err
+	}
+
 	return nil
 }
 

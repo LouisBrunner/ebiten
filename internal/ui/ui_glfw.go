@@ -245,10 +245,6 @@ func (u *UserInterface) initializeGLFW() error {
 	return nil
 }
 
-func (u *UserInterface) NativeWindowHandle() (uintptr, error) {
-	return u.window.GetCocoaWindow()
-}
-
 func (u *UserInterface) setInitMonitor(m *Monitor) {
 	u.m.Lock()
 	defer u.m.Unlock()

@@ -753,7 +753,15 @@ func (u *UserInterface) initOnMainThread(options *RunOptions) error {
 		bodyStyle.Set("backgroundColor", "#000")
 	}
 
+	if err := options.RunOnceInitialized(); err != nil {
+		return err
+	}
+
 	return nil
+}
+
+func (u *UserInterface) nativeWindow() (uintptr, error) {
+	return 0, errors.New("not supported in this environment")
 }
 
 func (u *UserInterface) updateScreenSize() {

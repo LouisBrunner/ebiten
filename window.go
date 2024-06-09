@@ -43,7 +43,7 @@ const (
 )
 
 func WindowNativeHandle() (uintptr, error) {
-	return ui.Get().NativeWindowHandle()
+	return ui.Get().nativeWindow()
 }
 
 // IsWindowDecorated reports whether the window is decorated.
