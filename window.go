@@ -42,6 +42,10 @@ const (
 	WindowResizingModeEnabled WindowResizingModeType = ui.WindowResizingModeEnabled
 )
 
+func WindowNativeHandle() (uintptr, error) {
+	return ui.Get().NativeWindowHandle()
+}
+
 // IsWindowDecorated reports whether the window is decorated.
 //
 // IsWindowDecorated is concurrent-safe.

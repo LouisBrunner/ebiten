@@ -279,6 +279,10 @@ type RunGameOptions struct {
 
 	// X11InstanceName is an instance name in the ICCCM WM_CLASS window property.
 	X11InstanceName string
+
+	// RunOnceInitialized is a function that is called once, just before the main loop is started.
+	// This is useful for any setup that needs to be run on the main thread but needs to be done after the window is created.
+	RunOnceInitialized func() error
 }
 
 // RunGameWithOptions starts the main loop and runs the game with the specified options.
@@ -698,13 +702,14 @@ func toUIRunOptions(options *RunGameOptions) *ui.RunOptions {
 		options.X11InstanceName = defaultX11InstanceName
 	}
 	return &ui.RunOptions{
-		GraphicsLibrary:   ui.GraphicsLibrary(options.GraphicsLibrary),
-		InitUnfocused:     options.InitUnfocused,
-		ScreenTransparent: options.ScreenTransparent,
-		SkipTaskbar:       options.SkipTaskbar,
-		SingleThread:      options.SingleThread,
-		X11ClassName:      options.X11ClassName,
-		X11InstanceName:   options.X11InstanceName,
+		GraphicsLibrary:    ui.GraphicsLibrary(options.GraphicsLibrary),
+		InitUnfocused:      options.InitUnfocused,
+		ScreenTransparent:  options.ScreenTransparent,
+		SkipTaskbar:        options.SkipTaskbar,
+		SingleThread:       options.SingleThread,
+		X11ClassName:       options.X11ClassName,
+		X11InstanceName:    options.X11InstanceName,
+		RunOnceInitialized: options.RunOnceInitialized,
 	}
 }
 

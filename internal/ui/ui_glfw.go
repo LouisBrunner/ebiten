@@ -245,6 +245,10 @@ func (u *UserInterface) initializeGLFW() error {
 	return nil
 }
 
+func (u *UserInterface) NativeWindowHandle() (uintptr, error) {
+	return u.window.GetCocoaWindow()
+}
+
 func (u *UserInterface) setInitMonitor(m *Monitor) {
 	u.m.Lock()
 	defer u.m.Unlock()
@@ -1162,6 +1166,9 @@ func (u *UserInterface) initOnMainThread(options *RunOptions) error {
 		return err
 	}
 	if err := u.registerDropCallback(); err != nil {
+		return err
+	}
+	if err := options.RunOnceInitialized(); err != nil {
 		return err
 	}
 
