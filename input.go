@@ -382,6 +382,8 @@ func TouchPosition(id TouchID) (int, int) {
 	return theInputState.touchPosition(id)
 }
 
+type InputState = ui.InputState
+
 var theInputState inputState
 
 type inputState struct {

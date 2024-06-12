@@ -283,6 +283,10 @@ type RunGameOptions struct {
 	// RunOnceInitialized is a function that is called once, just before the main loop is started.
 	// This is useful for any setup that needs to be run on the main thread but needs to be done after the window is created.
 	RunOnceInitialized func() error
+
+	// UpdateInputState is a function that is called before the input state is updated.
+	// This is useful if you need to feed extra events into the input state for currently unsupported devices.
+	UpdateInputState func(*InputState)
 }
 
 // RunGameWithOptions starts the main loop and runs the game with the specified options.
@@ -326,7 +330,7 @@ func RunGameWithOptions(game Game, options *RunGameOptions) error {
 	op := toUIRunOptions(options)
 	// This is necessary to change the result of IsScreenTransparent.
 	screenTransparent.Store(op.ScreenTransparent)
-	g := newGameForUI(game, op.ScreenTransparent)
+	g := newGameForUI(game, op.ScreenTransparent, op.UpdateInputState)
 
 	if err := ui.Get().Run(g, op); err != nil {
 		if errors.Is(err, Termination) {
@@ -710,6 +714,7 @@ func toUIRunOptions(options *RunGameOptions) *ui.RunOptions {
 		X11ClassName:       options.X11ClassName,
 		X11InstanceName:    options.X11InstanceName,
 		RunOnceInitialized: options.RunOnceInitialized,
+		UpdateInputState:   options.UpdateInputState,
 	}
 }
 

@@ -32,18 +32,20 @@ func init() {
 }
 
 type gameForUI struct {
-	game         Game
-	offscreen    *Image
-	screen       *Image
-	screenShader *Shader
-	imageDumper  imageDumper
-	transparent  bool
+	game             Game
+	offscreen        *Image
+	screen           *Image
+	screenShader     *Shader
+	imageDumper      imageDumper
+	transparent      bool
+	updateInputState func(*InputState)
 }
 
-func newGameForUI(game Game, transparent bool) *gameForUI {
+func newGameForUI(game Game, transparent bool, updateInputState func(*InputState)) *gameForUI {
 	g := &gameForUI{
-		game:        game,
-		transparent: transparent,
+		game:             game,
+		transparent:      transparent,
+		updateInputState: updateInputState,
 	}
 
 	s, err := NewShader(builtinshader.ScreenShaderSource)
@@ -106,6 +108,9 @@ func (g *gameForUI) Layout(outsideWidth, outsideHeight float64) (float64, float6
 
 func (g *gameForUI) UpdateInputState(fn func(*ui.InputState)) {
 	theInputState.update(fn)
+	if g.updateInputState != nil {
+		theInputState.update(g.updateInputState)
+	}
 }
 
 func (g *gameForUI) Update() error {

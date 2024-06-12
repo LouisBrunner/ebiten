@@ -182,6 +182,7 @@ type RunOptions struct {
 	X11ClassName       string
 	X11InstanceName    string
 	RunOnceInitialized func() error
+	UpdateInputState   func(*InputState)
 }
 
 // InitialWindowPosition returns the position for centering the given second width/height pair within the first width/height pair.
